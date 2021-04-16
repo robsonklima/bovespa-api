@@ -1,21 +1,22 @@
 import os
-from flask import Flask, json
+from flask import Flask, request, jsonify
 from alpha_vantage.timeseries import TimeSeries
 
 app = Flask(__name__)
-API_key = 'SBAHO6UH7BX7GIBV'
+API_key = '0244'
 
-@app.route('/symbols/<symbol>', methods=['GET'])
-def symbols(symbol):
+@app.route('/quotes', methods=['POST'])
+def quotes():
     ts = TimeSeries(key=API_key)
-    data, meta_data = ts.get_symbol_search(symbol)
-    return data.to_json(orient='records')[1:-1].replace('},{', '} {')
+    quotes = request.json
+    stocks_formatted = []
 
-@app.route('/quotes/<symbol>', methods=['GET'])
-def quotes(symbol):
-    ts = TimeSeries(key=API_key)
-    data, meta_data = ts.get_quote_endpoint(symbol)
-    return json.dumps(data, indent=4)
+    for i, quote in enumerate(quotes):
+        q, meta_data = ts.get_quote_endpoint(quote['symbol'] + '.SAO')
+        s, meta_data = ts.get_symbol_search(quote['symbol'])
+        stocks_formatted.append({'symbol': next(iter(s.to_dict(orient='record'))), 'quote': q})
+
+    return jsonify(stocks_formatted)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
