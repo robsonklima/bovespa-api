@@ -1,4 +1,4 @@
-alpha_vantage
 pandas
 Flask~=1.1.2
 gunicorn
+yfinance
