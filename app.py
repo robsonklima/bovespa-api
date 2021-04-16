@@ -6,16 +6,16 @@ app = Flask(__name__)
 API_key = '0244'
 
 
-@app.route('/quotes', methods=['POST'])
-def quotes():
-    qs = request.json
+@app.route('/stocks', methods=['POST'])
+def stocks():
+    sts = request.json
     stocks = []
 
     try:
-        for i, quote in enumerate(qs):
-            msft = yf.Ticker(quote['symbol'] + ".SA")
+        for i, quote in enumerate(sts):
+            msft = yf.Ticker(quote['name'] + ".SA")
             stocks.append({
-                'quote': msft.info
+                'stock': msft.info
             })
 
         return jsonify(stocks)
@@ -26,15 +26,14 @@ def quotes():
         })
         return jsonify(stocks)
 
-@app.route('/quotes/<quote>', methods=['GET'])
-def quote(quote):
-    qs = request.json
+@app.route('/stocks/<stock>', methods=['GET'])
+def stock(stock):
     stocks = []
 
     try:
-        msft = yf.Ticker(quote + ".SA")
+        msft = yf.Ticker(stock + ".SA")
         stocks.append({
-            'quote': msft.info
+            'stock': msft.info
         })
 
         return jsonify(stocks)
