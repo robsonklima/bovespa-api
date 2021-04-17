@@ -2,3 +2,4 @@ pandas
 Flask~=1.1.2
 gunicorn
 yfinance
+pymongo[srv]
