@@ -35,7 +35,7 @@ def getUser(email):
     try:
         db = client['bovespa']
         collection = db['users']
-        cursor = collection.find({'email': email}, {'_id': False})
+        cursor = collection.find({'email': email}, {'_id': False, 'password': False})
 
         for i, document in enumerate(cursor):
             for i, stock in enumerate(document['stocks']):
