@@ -1,6 +1,5 @@
 pandas
-os
-Flask~=1.1.2
+Flask
 gunicorn
 yfinance
 pymongo[srv]
