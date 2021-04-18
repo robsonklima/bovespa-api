@@ -14,7 +14,8 @@ def login(email, password):
     try:
         db = client['bovespa']
         collection = db['users']
-        cursor = collection.find({'email': email, 'password': hashlib.md5(password.encode("utf-8")).hexdigest()})
+        cursor = collection.find({'email': email, 'password': hashlib.md5(password.encode("utf-8")).hexdigest()},
+                                 {'_id': False, 'password': False})
 
         for document in cursor:
             return json.loads(json_util.dumps(document))
