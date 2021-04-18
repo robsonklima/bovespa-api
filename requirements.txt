@@ -3,5 +3,3 @@ Flask
 gunicorn
 yfinance
 pymongo[srv]
-hashlib
-bson
