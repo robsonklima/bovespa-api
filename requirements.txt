@@ -1,5 +1,9 @@
 pandas
+ssl
+os
 Flask~=1.1.2
 gunicorn
 yfinance
 pymongo[srv]
+hashlib
+bson
