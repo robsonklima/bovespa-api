@@ -19,31 +19,29 @@ collection = db['users']
 #for document in cursor:
 #      print(document)
 
-
-cursor = db['stocks'].find({}, {'_id': False})
-for document in cursor:
-      print(document)
+#cursor = db['stocks'].find({}, {'_id': False})
+#for document in cursor:
+#      print(document)
 
 #UPDATE
-#collection.update_one({'email': 'robsonklima@gmail.com'},
-#                      {"$set": {'password': hashlib.md5("bovespa".encode("utf-8")).hexdigest(),
-#                                'role': 'ADMIN', 'name': 'Robson Lima',
-#                                'wallet': [{'name': 'ABEV'}, {'name': 'VALE3'},
-#                                           {'name': 'BBDC3'}, {'name': 'BBAS3'}]}})
+collection.update_one({'email': 'robsonklima@gmail.com'},
+                      {"$set": {'password': hashlib.md5("bovespa".encode("utf-8")).hexdigest(),
+                                'role': 'ADMIN', 'name': 'Robson Lima',
+                                'wallet': [{'name': 'ABEV'}, {'name': 'VALE3'},
+                                           {'name': 'BBDC3'}, {'name': 'BBAS3'}]}})
 
 #DELETE
 #collection.delete_many({'email':'teste@teste.com'})
 
 #REPLACE
+#obj = {
+#    "email": "robsonklima@gmail.com",
+#    "password": "e3e0cf8ee39f353e5519a32cb954e5b9",
+#   "wallet": [{
+#       "name": "VALE3"
+#    }],
+#    "role": "ADMIN",
+#    "name": "Robson de Lima"
+#}
 
-obj = {
-    "email": "robsonklima@gmail.com",
-    "password": "e3e0cf8ee39f353e5519a32cb954e5b9",
-    "wallet": [{
-        "name": "VALE3"
-    }],
-    "role": "ADMIN",
-    "name": "Robson de Lima"
-}
-
-result = collection.replace_one({"email": 'robsonklima@gmail.com'}, obj, upsert=True)
+#result = collection.replace_one({"email": 'robsonklima@gmail.com'}, obj, upsert=True)

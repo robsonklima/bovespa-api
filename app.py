@@ -6,8 +6,10 @@ from flask import Flask, request, json
 import yfinance as yf
 from pymongo import MongoClient
 
+
 app = Flask(__name__)
 client = MongoClient("mongodb+srv://app:Rkl2021@cluster0.pcxk9.mongodb.net/bovespa?retryWrites=true&w=majority")
+
 
 @app.route('/login/<email>/<password>', methods=['GET'])
 def login(email, password):
@@ -24,12 +26,14 @@ def login(email, password):
     except Exception as ex:
         return ex
 
+
 @app.route('/stocks', methods=['GET'])
 def getStocks():
     db = client['bovespa']
     collection = db['stocks']
     cursor = collection.find({}, {'_id': False})
     return dumps(cursor)
+
 
 @app.route('/users/<email>', methods=['GET'])
 def getUser(email):
@@ -58,6 +62,7 @@ def putUser():
     collection.replace_one({"email": user['email']}, user, upsert=True)
     return user
 
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='127.0.0.1', port=port)
