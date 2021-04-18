@@ -1,15 +1,13 @@
 import os
-import ssl
 import hashlib
 from bson import json_util
 from bson.json_util import dumps
-from flask import Flask, request, jsonify, json
+from flask import Flask, request, json
 import yfinance as yf
 from pymongo import MongoClient
 
 app = Flask(__name__)
-client = MongoClient("mongodb+srv://app:Rkl2021@cluster0.pcxk9.mongodb.net/bovespa?retryWrites=true&w=majority",
-                     ssl=True, ssl_cert_reqs=ssl.CERT_NONE)
+client = MongoClient("mongodb+srv://app:Rkl2021@cluster0.pcxk9.mongodb.net/bovespa?retryWrites=true&w=majority")
 
 @app.route('/login/<email>/<password>', methods=['GET'])
 def login(email, password):
