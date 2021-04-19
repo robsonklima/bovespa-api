@@ -1,8 +1,7 @@
 import os
 import hashlib
 from bson import json_util
-from bson.json_util import dumps
-from flask import Flask, request, json
+from flask import Flask, request, json, jsonify
 import yfinance as yf
 from pymongo import MongoClient
 
@@ -26,14 +25,20 @@ def login(email, password):
     except Exception as ex:
         return ex
 
-
 @app.route('/stocks', methods=['GET'])
 def getStocks():
     db = client['bovespa']
     collection = db['stocks']
     cursor = collection.find({}, {'_id': False})
-    return dumps(cursor)
 
+    stocks = []
+    for i, stock in enumerate(cursor):
+        #if i == 1:
+        msft = yf.Ticker(stock['name'] + ".SA")
+        stock['info'] = msft.info
+        stocks.append(stock)
+
+    return jsonify(stocks)
 
 @app.route('/users/<email>', methods=['GET'])
 def getUser(email):
