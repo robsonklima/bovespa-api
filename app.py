@@ -24,6 +24,16 @@ def getStocks():
 
     return jsonify(stocks)
 
+@app.route("/stocks/<name>", methods=["GET"])
+def getStock(name):
+    db = client['bovespa']
+    collection = db['stocks']
+    stock = collection.find_one({'name': name}, {'_id': False})
+    msft = yf.Ticker(stock['name'] + ".SA")
+    stock['info'] = msft.info
+
+    return json.loads(json_util.dumps(stock))
+
 @app.route('/stocks', methods=['POST'])
 def postStock():
     db = client['bovespa']
@@ -33,7 +43,7 @@ def postStock():
     return stock
 
 @app.route("/stocks/<name>", methods=["DELETE"])
-def stockDelete(name):
+def deleteStock(name):
     db = client['bovespa']
     collection = db['stocks']
     collection.find_one_and_delete({'name': name})
