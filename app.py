@@ -1,15 +1,17 @@
 import os
-import hashlib
 from bson import json_util
 from flask import Flask, request, json, jsonify
 import yfinance as yf
 from pymongo import MongoClient
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 client = MongoClient("mongodb+srv://app:Rkl2021@cluster0.pcxk9.mongodb.net/bovespa?retryWrites=true&w=majority")
 
 
 @app.route('/stocks', methods=['GET'])
+@cross_origin(supports_credentials=True)
 def getStocks():
     db = client['bovespa']
     collection = db['stocks']
@@ -25,6 +27,7 @@ def getStocks():
     return jsonify(stocks)
 
 @app.route("/stocks/<name>", methods=["GET"])
+@cross_origin(supports_credentials=True)
 def getStock(name):
     db = client['bovespa']
     collection = db['stocks']
@@ -35,6 +38,7 @@ def getStock(name):
     return json.loads(json_util.dumps(stock))
 
 @app.route('/stocks', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def postStock():
     db = client['bovespa']
     collection = db['stocks']
@@ -43,6 +47,7 @@ def postStock():
     return stock
 
 @app.route("/stocks/<name>", methods=["DELETE"])
+@cross_origin(supports_credentials=True)
 def deleteStock(name):
     db = client['bovespa']
     collection = db['stocks']
